@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>
+			<i class="fa fa-certificate "></i> Issue Certificate
+		</h2>
+		<br/>
+<form method="post">{% csrf_token %}
+	<div class="row">
+		<div class="col-md-1"></div>
+			<div class="col-md-10">
+
+				<hr/>
+				<div class="alert alert-success	" role="alert">
+				  <h5 class="alert-heading m-0 p-0"><i class="fa fa-tags "></i> Map Tags of template with their respective columns. </h5>
+				</div>
+				
+				<div class="table-responsive">
+  					<table class="table table-borderless table-sm">
+					  <thead>
+					    <tr>
+					      <th scope="col">Tags</th>
+					      <th scope="col">Input Type</th>
+					      <th scope="col">Your Input</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	{% for tag in tags %}
+					    <tr>
+					      <th scope="row"><i class="fa fa-tag"></i> {{tag}}</th>
+					      <td>
+							<div class="input-group input-group-sm">
+						      	<select class="form-control" id="type_{{tag}}" name="type_{{tag}}" required onchange="fieldInput('{{tag}}')">
+				                  <option selected value="csv">CSV</option>
+				                  <option value="text">Text</option>
+				                  <option value="date">Date</option>
+				                  <option value="auto">Auto Generated</option>
+				                </select>
+				            </div>
+					      </td>
+
+					      <td>
+					      	<div class="input-group input-group-sm" id="input_{{tag}}">
+							  <select class="form-control" name="input_{{tag}}" required>
+				            <option selected>Choose...</option>
+				            {% for column in columns %}
+				            <option value="{{column}}">{{column}}</option>
+				             {% endfor %}
+				        </select>
+							</div>
+					      </td>
+					    </tr>
+					    {% endfor %}
+					  </tbody>
+					</table>
+				</div>
+					
+				
+				<hr/>
+
+				<div class="alert alert-success" role="alert">
+				  <h5 class="alert-heading m-0 p-0"><i class="fa fa-envelope "></i> Email Details</h5>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+    					<label>Select Column for Emails</label>
+	    
+						<select class="form-control" name="emails" required>
+				            <option selected>Choose...</option>
+				            {% for column in columns %}
+				            <option value="{{column}}">{{column}}</option>
+				             {% endfor %}
+				        </select>
+				            </div>
+					</div>
+					<div class="col-md-8">
+						<div class="form-group">
+						    <label>Subject of Email</label>
+						    <input type="text" class="form-control" placeholder="Enter subject of email" name="subject" required>
+						  </div>
+					</div>
+					
+				</div>
+				<div class="form-group mt-2">
+					<label>Body of Email</label>
+					<textarea class="form-control" name="mess" required></textarea>
+				</div>
+				<br/>
+				<button type="submit" class="btn btn-info w-100">Generate and Send Certificate</button>
+				<hr/>
+					<div class="alert alert-warning" role="alert">
+					  Generating and Sending process of certificate usually take some time, Please have some patience and <b>do not refresh the page</b>
+					</div>
+				
+			</div>
+		
+		<div class="col-md-1"></div>
+	</div>
+</form>
+<script type="text/javascript">
+	var columns = `{% for column in columns %}<option value="{{column}}">{{column}}</option>{% endfor %}`
+
+	function fieldInput(tag){
+		let inputType = document.getElementById('type_'+tag);
+		let inputValue = document.getElementById('input_'+tag);
+		if(inputType.value == 'text'){
+			inputValue.innerHTML = `<input type="text" class="form-control" required name="input_${tag}" placeholder="Enter ${tag}">`
+		}
+		else if(inputType.value == 'date'){
+			inputValue.innerHTML = `<input type="date" class="form-control" required name="input_${tag}">`
+		}
+		else if(inputType.value == 'auto'){
+			inputValue.innerHTML = `<input type="text" class="form-control" required name="input_${tag}" placeholder="Enter the prefix for the auto generated value">`
+		}
+		else if(inputType.value == "csv"){
+			inputValue.innerHTML = `<select class="form-control" name="input_${tag}" required><option selected>Choose...</option>${columns}</select>`
+		}
+	}
+
+</script>
+{% endblock body %}

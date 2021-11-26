@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>
+			<i class="fa fa-certificate "></i> Issue Certificate
+		</h2>
+		<br/>
+<form enctype="multipart/form-data" method="post">{% csrf_token %}
+
+<div class="row">
+	<div class="col-md-1"></div>
+
+	<div class="col-md-5">
+
+
+				<div class="form-group">
+					<label for="csvinput">Upload CSV</label>
+					<input type="file" class="form-control" id="csvinput"  required name="csv">
+				</div>
+
+	</div>
+	<div class="col-md-5">
+		<div class="form-group">
+					<label for="templatefile">Upload Template</label>
+					<input type="file" class="form-control" id="templatefile"  required name="template">
+				</div>
+	</div>
+
+	<div class="col-md-1"></div>
+
+</div>
+
+<br/>
+
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-md-7">
+
+
+				<div class="form-group">
+					<label for="csvinput">Event Name</label>
+					<input type="text" class="form-control" id=""  required name="event_name" placeholder="Enter Title of Event">
+				</div>
+
+	</div>
+	<div class="col-md-3">
+		<label for="csvinput">.</label>
+		<button type='submit' class="btn btn-primary w-100">Next</button>
+	</div>
+	
+	<div class="col-md-1"></div>
+</div>
+<br/>
+
+</form>
+
+<div class="row">
+	<div class="col-md-1">
+
+	</div>
+	<div class="col-md-10">
+		<div class="alert alert-success" role="alert">
+		  Note :-
+		 <ol>
+	<li>Template file should be in <b>.ppt</b> or <b>.pptx</b> format.</li>
+	<li>The tag should be written in <b>&lt;angular_brackets&gt;</b> eg. <b>&lt;name&gt;</b>.</li>
+	<li>Use <b>Caps Lock</b> to write tags in capital letters Do not use Powerpoint functions.</li>
+	
+	</ol>
+</div>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+{% endblock body %}

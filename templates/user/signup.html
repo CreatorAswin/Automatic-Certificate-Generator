@@ -1,0 +1,77 @@
+
+{% extends 'base.html'%}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+{% load static %}
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              {% if messages %}
+                          {% for mess in messages %}
+                          <div class="alert alert-{{mess.tags}}" role="alert">
+                            {{mess}}
+                          </div>
+                          {% endfor %}
+                        {% endif %} 
+                <br>
+
+                       {% if otp %}
+                          <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom display">
+                                    <h3 class="float-left">Verify Your Email</h3>
+
+                                <!-- <img src="{% static 'img/logo.png' %}" class="logo float-right pt-1" width="25"> -->
+                                </legend>
+                                <input type="hidden" name="usr" value="{{usr.username}}">
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">OTP</span>
+                                  </div>
+                                  <input type="text" class="form-control" placeholder="Enter Your OTP" aria-label="OTP" aria-describedby="basic-addon1" name = 'otp'>
+                                </div>
+                                
+                            </fieldset>
+                            <div class="form-grounp">
+                                <button class="btn btn-info" type="submit">Verify</button>
+                                <small style="float:right"><i><a href="#" class="text-dark" 
+                                  onclick="ReSendOTP('{{usr.username}}', 'resendOTPmess')"><i id="resendOTPmess">Resend</i> OTP</a></small>
+
+                            </div>
+
+                        </form>
+                       {% else %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom display">
+                                    <h3 class="float-left">Register Now</h3>
+
+                                <!-- <img src="{% static 'img/logo.png' %}" class="logo float-right pt-1" width="25"> -->
+                                </legend>
+
+                                {{ form|crispy }}
+                            </fieldset>
+                            <div class="form-grounp">
+                                <button class="btn btn-info" type="submit">Sign Up</button>
+                                <small style="float:right">Already have a Account ?<a href="{% url 'login' %}" class="text-dark"> Login</a></small>
+
+                            </div>
+
+                        </form>
+                        {% endif %}
+               <br>
+           </div>
+           <div class="col-md-4">
+           </div>
+       </div>
+   
+
+{% endblock body %}
